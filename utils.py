@@ -14,6 +14,9 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands()
 
+DATASET_FILE_CSV = './dataset_landmarks.csv'
+SAVED_MODEL_FILE = './saved_model'
+
 
 def create_dir(dirname, replace=False):
   if replace and os.path.exists(dirname):
@@ -30,12 +33,9 @@ def hands_landmarks(frame):
   return results.multi_hand_landmarks
 
 
-def draw_landmarks(frame):
-  landmarks = hands_landmarks(frame)
-
-  if landmarks:
-    for landmark in landmarks:
-      mp_drawing.draw_landmarks(frame, landmark, mp_hands.HAND_CONNECTIONS)
+def draw_landmarks(frame, landmarks):
+  for landmark in landmarks:
+    mp_drawing.draw_landmarks(frame, landmark, mp_hands.HAND_CONNECTIONS)
 
 
 def draw_title(frame, title):
@@ -125,4 +125,27 @@ def landmarks_to_csv(landmarks):
   ]
 
   df = pd.DataFrame(data, columns=columns)
-  df.to_csv('dataset_landmarks.csv', index=False)
+  df.to_csv(DATASET_FILE_CSV, index=False)
+
+
+def landmark_coordinates(landmarks):
+  coordinates = []
+  x_coordinates = []
+  y_coordinates = []
+
+  for hand_landmarks in landmarks:
+    for i in range(len(hand_landmarks.landmark)):
+      x = hand_landmarks.landmark[i].x
+      y = hand_landmarks.landmark[i].y
+
+      x_coordinates.append(x)
+      y_coordinates.append(y)
+
+    for i in range(len(hand_landmarks.landmark)):
+      x = hand_landmarks.landmark[i].x
+      y = hand_landmarks.landmark[i].y
+
+      coordinates.append(x - min(x_coordinates))
+      coordinates.append(y - min(y_coordinates))
+
+  return coordinates

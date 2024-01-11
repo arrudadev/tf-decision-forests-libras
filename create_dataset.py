@@ -12,8 +12,11 @@ def collect_signals_data():
 
     while True:
       frame = utils.image_frame()
+      landmarks = utils.hands_landmarks(frame)
 
-      utils.draw_landmarks(frame)
+      if landmarks:
+        utils.draw_landmarks(frame, landmarks)
+
       utils.draw_title(frame, title)
       utils.show_image_frame(frame)
 
@@ -27,38 +30,19 @@ def collect_signal_landmarks(signal):
 
   while counter < dataset_size:
     frame = utils.image_frame()
-
-    utils.show_image_frame(frame)
     landmarks = utils.hands_landmarks(frame)
 
-    coordinates = []
-    x_coordinates = []
-    y_coordinates = []
-
     if landmarks:
-      coordinates.append(signal)
-
-      for hand_landmarks in landmarks:
-        for i in range(len(hand_landmarks.landmark)):
-          x = hand_landmarks.landmark[i].x
-          y = hand_landmarks.landmark[i].y
-
-          x_coordinates.append(x)
-          y_coordinates.append(y)
-
-        for i in range(len(hand_landmarks.landmark)):
-          x = hand_landmarks.landmark[i].x
-          y = hand_landmarks.landmark[i].y
-
-          coordinates.append(x - min(x_coordinates))
-          coordinates.append(y - min(y_coordinates))
-
+      coordinates = utils.landmark_coordinates(landmarks)
+      coordinates.insert(0, signal)
       dataset_landmarks.append(coordinates)
 
     counter += 1
+    utils.show_image_frame(frame)
     utils.wait_letter_q_pressed()
 
 
 collect_signals_data()
+
 utils.destroy_capture_windows()
 utils.landmarks_to_csv(dataset_landmarks)
