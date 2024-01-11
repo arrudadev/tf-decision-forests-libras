@@ -1,2 +1,6 @@
 venv
+venvwin
 data.csv
+dataset.pickle
+dataset_landmarks.csv
+__pycache__
