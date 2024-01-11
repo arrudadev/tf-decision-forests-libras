@@ -124,7 +124,5 @@ def landmarks_to_csv(landmarks):
       'pinky_finger_tip_y'
   ]
 
-  print(data)
-
   df = pd.DataFrame(data, columns=columns)
   df.to_csv('dataset_landmarks.csv', index=False)
