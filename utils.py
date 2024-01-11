@@ -16,6 +16,7 @@ hands = mp_hands.Hands()
 
 DATASET_FILE_CSV = './dataset_landmarks.csv'
 SAVED_MODEL_FILE = './saved_model'
+CONVERTED_MODEL_FILE = './tfjs_model'
 
 
 def create_dir(dirname, replace=False):
