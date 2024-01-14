@@ -7,6 +7,6 @@ dataset_data_frame = pd.read_csv(utils.DATASET_FILE_CSV)
 train_dataset = tfdf.keras.pd_dataframe_to_tf_dataset(
     dataset_data_frame, label="signal")
 
-model = tfdf.keras.GradientBoostedTreesModel()
+model = tfdf.keras.RandomForestModel()
 model.fit(train_dataset)
 model.save(utils.SAVED_MODEL_FILE)
