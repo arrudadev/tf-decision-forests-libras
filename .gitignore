@@ -5,3 +5,4 @@ dataset.pickle
 dataset_landmarks.csv
 __pycache__
 saved_model
+tfjs_model
