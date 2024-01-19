@@ -1,7 +1,5 @@
 SIGNALS = [
     'CASA',
     'GASOLINA',
-    'PALAVRA',
-    # 'JUNTOS',
-    # 'PEDRA',
+    'PALAVRA'
 ]

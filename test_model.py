@@ -32,11 +32,6 @@ while True:
       signal = SIGNALS[np.argmax(prediction)]
       print(signal)
 
-      # input_data = utils.coordinates_to_input_data(coordinates)
-      # prediction = model.predict(input_data)
-      # signal = SIGNALS[np.argmax(prediction)]
-      # print(signal)
-
   utils.show_image_frame(frame)
 
   if utils.is_letter_q_pressed():

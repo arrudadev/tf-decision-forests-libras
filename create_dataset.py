@@ -2,12 +2,12 @@ import time
 import utils
 from signals import SIGNALS
 
-dataset_size = 100
+dataset_size = 1000
 dataset_landmarks = []
 
 
 def collect_signals_data():
-  for signal in SIGNALS:
+  for index, signal in enumerate(SIGNALS):
     print(f'Collecting the data from the signal of {signal}')
     title = f'Press "Q" to start and make the signal of "{signal}"'
 
@@ -22,11 +22,11 @@ def collect_signals_data():
       utils.show_image_frame(frame)
 
       if utils.is_letter_q_pressed():
-        collect_signal_landmarks(signal)
+        collect_signal_landmarks(index)
         break
 
 
-def collect_signal_landmarks(signal):
+def collect_signal_landmarks(signal_index):
   counter = 0
   time.sleep(3)
 
@@ -35,10 +35,11 @@ def collect_signal_landmarks(signal):
     landmarks = utils.hands_landmarks(frame)
 
     if landmarks:
+      utils.draw_landmarks(frame, landmarks)
       coordinates = utils.landmark_coordinates(landmarks)
 
       if len(coordinates) == 84:
-        coordinates.insert(0, signal)
+        coordinates.insert(0, signal_index)
         dataset_landmarks.append(coordinates)
         counter += 1
 
