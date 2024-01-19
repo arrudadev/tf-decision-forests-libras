@@ -7,3 +7,4 @@ __pycache__
 saved_model
 tfjs_model
 model.json
+landmarks.txt

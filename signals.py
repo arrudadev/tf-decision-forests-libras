@@ -1,7 +1,7 @@
 SIGNALS = [
-    'A',
-    'E',
-    'I',
-    'O',
-    'U'
+    'CASA',
+    'GASOLINA',
+    'PALAVRA',
+    # 'JUNTOS',
+    # 'PEDRA',
 ]

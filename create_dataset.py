@@ -1,3 +1,4 @@
+import time
 import utils
 from signals import SIGNALS
 
@@ -27,6 +28,7 @@ def collect_signals_data():
 
 def collect_signal_landmarks(signal):
   counter = 0
+  time.sleep(3)
 
   while counter < dataset_size:
     frame = utils.image_frame()
@@ -34,10 +36,12 @@ def collect_signal_landmarks(signal):
 
     if landmarks:
       coordinates = utils.landmark_coordinates(landmarks)
-      coordinates.insert(0, signal)
-      dataset_landmarks.append(coordinates)
 
-    counter += 1
+      if len(coordinates) == 84:
+        coordinates.insert(0, signal)
+        dataset_landmarks.append(coordinates)
+        counter += 1
+
     utils.show_image_frame(frame)
     utils.wait_letter_q_pressed()
 
@@ -46,3 +50,5 @@ collect_signals_data()
 
 utils.destroy_capture_windows()
 utils.landmarks_to_csv(dataset_landmarks)
+
+print('Done!')

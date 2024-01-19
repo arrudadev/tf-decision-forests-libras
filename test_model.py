@@ -3,10 +3,15 @@ import tensorflow_decision_forests as tfdf
 import numpy as np
 import utils
 from signals import SIGNALS
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import joblib
 
-NUMBER_OF_COORDINATES = 42
+NUMBER_OF_COORDINATES = 84
 
 model = tf.keras.models.load_model(utils.SAVED_MODEL_FILE)
+scaler = joblib.load('scaler.pkl')
+pca = joblib.load('pca.pkl')
 
 while True:
   frame = utils.image_frame()
@@ -17,10 +22,20 @@ while True:
     coordinates = utils.landmark_coordinates(landmarks)
 
     if len(coordinates) == NUMBER_OF_COORDINATES:
-      input_data = utils.coordinates_to_input_data(coordinates)
-      prediction = model.predict(input_data)
+      coordinates = np.array(coordinates).reshape(1, -1)
+      coordinates_scaled = scaler.transform(coordinates)
+      coordinates_pca = pca.transform(coordinates_scaled)
+      input_dict = {f'PC{i+1}': coordinates_pca[:, i]
+                    for i in range(coordinates_pca.shape[1])}
+
+      prediction = model.predict(input_dict)
       signal = SIGNALS[np.argmax(prediction)]
       print(signal)
+
+      # input_data = utils.coordinates_to_input_data(coordinates)
+      # prediction = model.predict(input_data)
+      # signal = SIGNALS[np.argmax(prediction)]
+      # print(signal)
 
   utils.show_image_frame(frame)
 
