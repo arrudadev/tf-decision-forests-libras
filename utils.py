@@ -14,7 +14,9 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 hands = mp_hands.Hands()
 
-DATASET_FILE_CSV = './dataset_landmarks.csv'
+NUMBER_OF_COORDINATES = 84
+IMAGES_DATASET_DIR = './dataset'
+DATASET_FILE_CSV = './landmarks.csv'
 SAVED_MODEL_FILE = './saved_model'
 CONVERTED_MODEL_FILE = './tfjs_model'
 LANDMARKS_NAMES = [
@@ -105,10 +107,7 @@ LANDMARKS_NAMES = [
 ]
 
 
-def create_dir(dirname, replace=False):
-  if replace and os.path.exists(dirname):
-    shutil.rmtree(dirname)
-
+def create_dir_if_not_exists(dirname):
   if not os.path.exists(dirname):
     os.makedirs(dirname)
 
@@ -213,3 +212,9 @@ def coordinates_to_input_data(coordinates):
     input_data[LANDMARKS_NAMES[i]] = np.array([coordinates[i]])
 
   return input_data
+
+
+def utils_save_image(dirname, filename, frame):
+  create_dir_if_not_exists(os.path.join(IMAGES_DATASET_DIR, dirname))
+
+  cv2.imwrite(os.path.join(IMAGES_DATASET_DIR, dirname, filename), frame)

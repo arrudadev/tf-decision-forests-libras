@@ -7,7 +7,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import joblib
 
-NUMBER_OF_COORDINATES = 84
 
 model = tf.keras.models.load_model(utils.SAVED_MODEL_FILE)
 scaler = joblib.load('scaler.pkl')
@@ -21,7 +20,7 @@ while True:
     utils.draw_landmarks(frame, landmarks)
     coordinates = utils.landmark_coordinates(landmarks)
 
-    if len(coordinates) == NUMBER_OF_COORDINATES:
+    if len(coordinates) == utils.NUMBER_OF_COORDINATES:
       coordinates = np.array(coordinates).reshape(1, -1)
       coordinates_scaled = scaler.transform(coordinates)
       coordinates_pca = pca.transform(coordinates_scaled)
