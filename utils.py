@@ -1,5 +1,4 @@
 import os
-import shutil
 import pickle
 import cv2
 import mediapipe as mp
@@ -184,8 +183,6 @@ def landmarks_to_csv(landmarks):
 
 def landmark_coordinates(landmarks):
   coordinates = []
-  # x_coordinates = []
-  # y_coordinates = []
 
   for hand_landmarks in landmarks:
     for i in range(len(hand_landmarks.landmark)):
@@ -194,13 +191,6 @@ def landmark_coordinates(landmarks):
 
       coordinates.append(x)
       coordinates.append(y)
-
-    # for i in range(len(hand_landmarks.landmark)):
-    #   x = hand_landmarks.landmark[i].x
-    #   y = hand_landmarks.landmark[i].y
-
-    #   coordinates.append(x - min(x_coordinates))
-    #   coordinates.append(y - min(y_coordinates))
 
   return coordinates
 

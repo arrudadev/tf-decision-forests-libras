@@ -28,3 +28,4 @@ for signal_dir in os.listdir(DATASET_DIR):
         dataset_landmarks.append(coordinates)
 
 utils.landmarks_to_csv(dataset_landmarks)
+print('Done!')
